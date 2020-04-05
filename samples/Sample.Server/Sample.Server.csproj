@@ -8,4 +8,8 @@
     <ProjectReference Include="..\Sample.Core\Sample.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Uploaded\" />
+  </ItemGroup>
+
 </Project>

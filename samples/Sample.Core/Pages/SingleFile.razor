@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/single"
 
 <h1>Single file</h1>
 
@@ -16,12 +16,34 @@
         var file = files.FirstOrDefault();
         if (file != null)
         {
-            // Just load into .NET memory to show it can be done
-            // Alternatively it could be saved to disk, or parsed in memory, or similar
-            var ms = new MemoryStream();
-            await file.Data.CopyToAsync(ms);
+            //// Just load into .NET memory to show it can be done
+            //// Alternatively it could be saved to disk, or parsed in memory, or similar
+            //var ms = new MemoryStream();
+            //await file.Data.CopyToAsync(ms);
 
-            status = $"Finished loading {file.Size} bytes from {file.Name}";
+
+
+            try
+            {
+
+                using (var ms = new MemoryStream())
+                {
+                    await file.Data.CopyToAsync(ms);
+
+                    var destination = $"Uploaded\\{file.Name}";
+                    using (var fs = File.Create(destination))
+                    {
+                        ms.WriteTo(fs);
+                    }
+
+                    status = "Uploaded!!!";
+                }
+
+            }
+            catch (Exception ex)
+            {
+                status = ex.Message;
+            }
         }
     }
 }
